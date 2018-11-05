@@ -1,6 +1,6 @@
 [package]
 name = "pcap-sys"
-version = "0.1.0"
+version = "0.1.1"
 description = "Low-level bindings to libpcap"
 homepage = "https://github.com/jmmk/rustpcap"
 repository = "https://github.com/jmmk/rustpcap"
