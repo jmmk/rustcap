@@ -1,7 +1,11 @@
 [package]
 name = "rustcap"
 version = "0.1.0"
+description = "Wrapper for libpcap"
+homepage = "https://github.com/jmmk/rustpcap"
+repository = "https://github.com/jmmk/rustpcap"
 authors = ["Michael McLellan <jmikem825@gmail.com>"]
+keywords = ["pcap", "libpcap"]
 
 [workspace]
 members = ["pcap-sys"]
