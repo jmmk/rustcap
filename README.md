@@ -1,5 +1,5 @@
 # Rustcap
-libpcap bindings for Rust
+Rust wrapper for libpcap
 
 ### Developing
 

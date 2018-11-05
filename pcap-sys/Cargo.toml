@@ -7,6 +7,8 @@ repository = "https://github.com/jmmk/rustpcap"
 authors = ["Michael McLellan <jmikem825@gmail.com>"]
 keywords = ["pcap", "libpcap"]
 build = "build.rs"
+license = "MIT"
+readme = "README.md"
 
 [dependencies]
 libc = "0.2.43"

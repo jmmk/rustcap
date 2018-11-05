@@ -6,6 +6,8 @@ homepage = "https://github.com/jmmk/rustpcap"
 repository = "https://github.com/jmmk/rustpcap"
 authors = ["Michael McLellan <jmikem825@gmail.com>"]
 keywords = ["pcap", "libpcap"]
+license = "MIT"
+readme = "README.md"
 
 [workspace]
 members = ["pcap-sys"]
