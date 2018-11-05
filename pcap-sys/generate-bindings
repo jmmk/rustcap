@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -eu
+
+readonly DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+readonly LIBPCAP_DIR="$DIR/libpcap"
+if ! [ -f "$LIBPCAP_DIR/.git" ]; then
+  git submodule update --init
+fi
+
+readonly PCAP_HEADER="$LIBPCAP_DIR/pcap.h"
+readonly PCAP_BINDINGS="$DIR/src/bindings.rs"
+
+if ! command -v bindgen > /dev/null 2>&1; then
+    echo "bindgen must be installed" >&2
+    echo "to install: cargo install bindgen && rustup component add rustfmt-preview" >&2
+    exit 1
+fi
+
+bindgen \
+    "$PCAP_HEADER" \
+    --ctypes-prefix 'libc' \
+    --raw-line 'extern crate libc;' \
+    --raw-line '#[cfg(windows)] extern crate winapi;' \
+    --raw-line 'pub use libc::FILE;' \
+    --raw-line '#[cfg(unix)] pub use libc::{sockaddr, timeval};' \
+    --raw-line '#[cfg(windows)] pub use winapi::shared::ws2def::SOCKADDR as sockaddr;' \
+    --raw-line '#[cfg(windows)] pub use winapi::um::winsock2::timeval;' \
+    --whitelist-function '^pcap_.*' \
+    --whitelist-type '^pcap_.*' \
+    --whitelist-var '^PCAP_.*' \
+    --blacklist-type 'sockaddr' \
+    --blacklist-type 'timeval' \
+    --blacklist-type '__.*' \
+    --blacklist-type 'FILE' \
+    --blacklist-type 'fpos_t' \
+    --distrust-clang-mangling \
+    --no-layout-tests \
+    -o "$PCAP_BINDINGS"

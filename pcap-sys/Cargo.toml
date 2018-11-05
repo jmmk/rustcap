@@ -1,0 +1,15 @@
+[package]
+name = "pcap-sys"
+version = "0.1.0"
+authors = ["Michael McLellan <jmikem825@gmail.com>"]
+build = "build.rs"
+
+[dependencies]
+libc = "0.2.43"
+
+[target.'cfg(windows)'.dependencies.winapi]
+version = "0.3.6"
+features = ["ws2def", "winsock2"]
+
+[build-dependencies]
+pkg-config = "0.3.14"
