@@ -13,7 +13,7 @@ fn main() {
     if cfg!(target_arch = "x86_64") {
         lib_path.push("x64")
     }
-    println!("cargo:rustc-link-search=native={}", lib_path);
+    println!("cargo:rustc-link-search=native={}", lib_path.display());
     println!("cargo:rustc-link-lib=packet");
     println!("cargo:rustc-link-lib=wpcap");
 }
