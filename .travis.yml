@@ -1,7 +1,9 @@
 language: rust
 addons:
   apt:
-    packages: [libpcap0.8, libpcap0.8-dev]
+    packages:
+    - libpcap0.8
+    - libpcap0.8-dev
 rust:
 - stable
 branches:
@@ -9,3 +11,21 @@ branches:
   - master
 script:
 - cargo build --verbose --all
+
+env:
+  global:
+    secure: hu1u50h9aYddXqNo4bKwMHOz+XJOa+JsNoU0NAUq6wQwWb0RpmL1UXwJ6XwZwNKp4wU6pT7sFmkCGPVvC85xe0Y6R0yvAQ/jLcu/xtOYDYOqU+Qrx8RB72yXN0KdHE7PYZuThp6Xh7JRVn8zjoJDEBoPG5rPFyjXzrBvfPooSHDeIbhjvz7DjUfsaJkRFcbgB9vIpSrH/LUsf3TdD/yvhGmOhbnaDhVXn6oDeYnL7P7IKDVQ2T2JIjBvtMpcJODsMaM2f076S7CLIjJD8ZRD3CbTsEUQk6a4JbTREiGvrScr6kvipxXLeKyu+U3H8htBR/yzLm+H5eBLGVtAhsFuR+MKCJrJqPzHPeoLEzQ0VeuDy9H7D9Uds5moIUZfo/MbFyCVBgZyXEIDmdUBgh5hnw37bE25mtvMq7MdLbzx7H1n5Asdi1byVevCoA7iRwo6feMQBzUs71BlhfAa2Mjhx2KOA82tCF6K/U1LIcb3o7nwQ+jnzp2YtGHoln3DClDyFGZmPtdNkQNc3EsGQndNbRAoqiASGrBs7WJ8HqWATf09kIOX1xaCPt9YvYSWkrrY7bZoi1qonBfFK9KRiD4zFqWHs6/RVctUMxVggyHxP2s7z4hftLFaZK5NcXAeHWR7aqn2T2aywmpHcRG+B6JFlHfk5o1joOnwlzstMxC5POk=
+
+before_deploy:
+- cargo package
+
+deploy:
+  provider: releases
+  api_key:
+    secure: uuxK8vnchSo4lTs4nypQhCgVCcCdsdf1WH5P8Xr/stLQOLveq9I7tqVNNkS9a5U/Y+t0ucgW+42I2FYMR5BYSEAX7Vp3kWfn6CvAsAZ7+E1V+VFJnapjWbpJsolXfFJfKgy8wZ1IiGEmmEZmhCzfIjLtHRiJF9QHJ/1wZD3hZs2Xt9rK58NyCDepBE4TeV0B7ez6XnJ9/ebFmHVmfOkMuYTaHNqHlRuU8skEOFop3I/fvEL5Vx9gW6JyxiGrL7tpVnSbpIWe8inBm0qtrEQOO/mDt6P2cM8ct4fVc8Uu/p/rHe9aFAQ3TDULcAw3H+nGT89J/MGw8zKVB3lNyB9tOZS/fnrAq4WEN0T60VaU0IXXvRP+NRRqhu3TnQFavD7upNBZAh4Z4ivi4nH9je0/Omw+5zqx0egFlJGZ3q8jHSEfuMJqWN+LL9fu+EwmNofS30HMQZB1frk3mb77L16x4q1Eo+v4FqdKiwr4nO8DW2YsQ4w+6CdBpomCV4MbhN+1U1yR23eLn8IemtnuuxDq+fB0g8YcHewr0SV44+65cQ1v4FKVIFVjhyBnYgmzr7qgcgXqQFPZUFiACqBgTA52QZN7qRAiPpFfhPRge5WfZsoB5g7sM4YmjJ3HrOnEwPrYSyYbRtvdWDN2uPQmrI74PeUmzgvhMqR+iovBjH4TfVg=
+  on:
+    tags: true
+    branch: master
+
+after_deploy:
+- cargo publish --token "$CRATESIO_TOKEN"
