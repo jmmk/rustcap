@@ -23,9 +23,6 @@ env:
   global:
     secure: hu1u50h9aYddXqNo4bKwMHOz+XJOa+JsNoU0NAUq6wQwWb0RpmL1UXwJ6XwZwNKp4wU6pT7sFmkCGPVvC85xe0Y6R0yvAQ/jLcu/xtOYDYOqU+Qrx8RB72yXN0KdHE7PYZuThp6Xh7JRVn8zjoJDEBoPG5rPFyjXzrBvfPooSHDeIbhjvz7DjUfsaJkRFcbgB9vIpSrH/LUsf3TdD/yvhGmOhbnaDhVXn6oDeYnL7P7IKDVQ2T2JIjBvtMpcJODsMaM2f076S7CLIjJD8ZRD3CbTsEUQk6a4JbTREiGvrScr6kvipxXLeKyu+U3H8htBR/yzLm+H5eBLGVtAhsFuR+MKCJrJqPzHPeoLEzQ0VeuDy9H7D9Uds5moIUZfo/MbFyCVBgZyXEIDmdUBgh5hnw37bE25mtvMq7MdLbzx7H1n5Asdi1byVevCoA7iRwo6feMQBzUs71BlhfAa2Mjhx2KOA82tCF6K/U1LIcb3o7nwQ+jnzp2YtGHoln3DClDyFGZmPtdNkQNc3EsGQndNbRAoqiASGrBs7WJ8HqWATf09kIOX1xaCPt9YvYSWkrrY7bZoi1qonBfFK9KRiD4zFqWHs6/RVctUMxVggyHxP2s7z4hftLFaZK5NcXAeHWR7aqn2T2aywmpHcRG+B6JFlHfk5o1joOnwlzstMxC5POk=
 
-before_deploy:
-- cargo package
-
 deploy:
   provider: releases
   api_key:
@@ -36,3 +33,4 @@ deploy:
 
 after_deploy:
 - cargo publish --token "$CRATESIO_TOKEN"
+- cd pcap-sys && cargo publish --token "$CRATESIO_TOKEN"
