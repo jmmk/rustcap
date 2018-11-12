@@ -6,9 +6,16 @@ addons:
     - libpcap0.8-dev
 rust:
 - stable
+
 branches:
   only:
   - master
+
+os:
+- windows
+- linux
+- osx
+
 script:
 - cargo build --verbose --all
 
