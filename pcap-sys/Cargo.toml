@@ -1,9 +1,9 @@
 [package]
 name = "pcap-sys"
-version = "0.1.1"
+version = "0.1.2"
 description = "Low-level bindings to libpcap"
-homepage = "https://github.com/jmmk/rustpcap"
-repository = "https://github.com/jmmk/rustpcap"
+homepage = "https://github.com/jmmk/rustcap"
+repository = "https://github.com/jmmk/rustcap"
 authors = ["Michael McLellan <jmikem825@gmail.com>"]
 keywords = ["pcap", "libpcap"]
 build = "build.rs"

@@ -1,9 +1,9 @@
 [package]
 name = "rustcap"
-version = "0.1.0"
+version = "0.1.1"
 description = "Wrapper for libpcap"
-homepage = "https://github.com/jmmk/rustpcap"
-repository = "https://github.com/jmmk/rustpcap"
+homepage = "https://github.com/jmmk/rustcap"
+repository = "https://github.com/jmmk/rustcap"
 authors = ["Michael McLellan <jmikem825@gmail.com>"]
 keywords = ["pcap", "libpcap"]
 license = "MIT"
