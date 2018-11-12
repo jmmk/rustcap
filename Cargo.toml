@@ -8,6 +8,7 @@ authors = ["Michael McLellan <jmikem825@gmail.com>"]
 keywords = ["pcap", "libpcap"]
 license = "MIT"
 readme = "README.md"
+documentation = "https://docs.rs/rustcap"
 
 [workspace]
 members = ["pcap-sys"]

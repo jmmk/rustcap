@@ -9,6 +9,7 @@ keywords = ["pcap", "libpcap"]
 build = "build.rs"
 license = "MIT"
 readme = "README.md"
+documentation = "https://docs.rs/pcap-sys"
 
 [dependencies]
 libc = "0.2.43"
