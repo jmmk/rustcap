@@ -26,12 +26,12 @@ fn main() {
     }
 
     // Fall back to pcap-config
-    let output = Command::new("pcap-config")
-        .arg("--libs")
-        .output()
-        .expect("Failed to run pcap-config. libpcap could not be linked");
-
-    parse_libs_cflags(&output.stdout);
+    match Command::new("pcap-config").arg("--libs").output() {
+        Ok(output) => {
+            parse_libs_cflags(&output.stdout)
+        },
+        _ => (),
+    }
 
     // on macOS, pcap-config returns /usr/local/lib, but libpcap is actually in /usr/lib
     println!("cargo:rustc-link-search=native=/usr/lib");
@@ -41,7 +41,8 @@ fn main() {
 #[cfg(unix)]
 fn parse_libs_cflags(output: &[u8]) {
     let words = split_flags(output);
-    let parts = words.iter()
+    let parts = words
+        .iter()
         .filter(|l| l.len() > 2)
         .map(|arg| (&arg[0..2], &arg[2..]))
         .collect::<Vec<_>>();
@@ -75,9 +76,7 @@ fn split_flags(output: &[u8]) -> Vec<String> {
                 escaped = false;
                 word.push(b);
             }
-            b'\\' => {
-                escaped = true
-            }
+            b'\\' => escaped = true,
             b'\t' | b'\n' | b'\r' | b' ' => {
                 if !word.is_empty() {
                     words.push(String::from_utf8(word).unwrap());
