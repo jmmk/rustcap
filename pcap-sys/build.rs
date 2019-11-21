@@ -1,9 +1,12 @@
 #[cfg(unix)]
 extern crate pkg_config;
 
+#[cfg(all(unix, feature = "static-libpcap"))]
+extern crate cmake;
+
 #[cfg(windows)]
 use std::path::PathBuf;
-#[cfg(unix)]
+#[cfg(all(unix, not(feature = "static-libpcap")))]
 use std::process::Command;
 
 #[cfg(windows)]
@@ -18,7 +21,31 @@ fn main() {
     println!("cargo:rustc-link-lib=wpcap");
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, feature = "static-libpcap"))]
+fn main() {
+    let linux_kernel_headers = std::env::var("LINUX_KERNEL_HEADERS").ok();
+
+    let mut cmake_config = cmake::Config::new("libpcap");
+
+    if let Some(linux_kernel_headers) = linux_kernel_headers {
+        cmake_config.define("DISABLE_USB", "ON");
+        cmake_config.define("DISABLE_DBUS", "ON");
+        cmake_config.define("DISABLE_BLUETOOTH", "ON");
+        cmake_config.define("DISABLE_RDMA", "ON");
+        cmake_config.define("ENABLE_REMOTE", "OFF");
+        cmake_config.define("USE_STATIC_RT", "ON");
+        cmake_config.define("BUILD_SHARED_LIBS", "OFF");
+        cmake_config.cflag(format!("-I{}", linux_kernel_headers));
+    }
+
+    let mut dst = cmake_config.build();
+    dst.push("lib");
+
+    println!("cargo:rustc-link-search=native={}", dst.display());
+    println!("cargo:rustc-link-lib=static=pcap");
+}
+
+#[cfg(all(unix, not(feature = "static-libpcap")))]
 fn main() {
     // First, try pkg_config (available in libpcap 1.9.0+)
     if pkg_config::probe_library("libpcap").is_ok() {
@@ -38,7 +65,7 @@ fn main() {
 }
 
 /// Adapted from pkg_config
-#[cfg(unix)]
+#[cfg(all(unix, not(feature = "static-libpcap")))]
 fn parse_libs_cflags(output: &[u8]) {
     let words = split_flags(output);
     let parts = words
@@ -64,7 +91,7 @@ fn parse_libs_cflags(output: &[u8]) {
 }
 
 /// Copied from pkg_config
-#[cfg(unix)]
+#[cfg(all(unix, not(feature = "static-libpcap")))]
 fn split_flags(output: &[u8]) -> Vec<String> {
     let mut word = Vec::new();
     let mut words = Vec::new();

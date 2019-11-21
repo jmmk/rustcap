@@ -25,3 +25,4 @@ features = ["ws2def", "ws2ipdef"]
 
 [features]
 libpnet = ["pnet"]
+static-libpcap = ["pcap-sys/static-libpcap"]
