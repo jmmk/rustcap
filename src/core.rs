@@ -208,7 +208,7 @@ impl ErrBuf {
     }
 
     fn as_raw_ptr(&mut self) -> *mut libc::c_char {
-        self.buf.as_mut_ptr()
+        unsafe { (self.buf.as_mut_ptr() as *mut libc::c_char) }
     }
 
     fn read(&mut self) -> Result<String, FromBytesWithNulError> {
@@ -358,6 +358,12 @@ impl Handle {
         } else {
             println!("error");
         }
+    }
+
+    pub fn set_immediate_mode(&self, immediate: bool) {
+        let _ = unsafe {
+            ffi::pcap_set_immediate_mode(self.handle, if immediate { 1 } else { 0 })
+        };
     }
 }
 

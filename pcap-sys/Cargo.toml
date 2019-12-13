@@ -20,3 +20,8 @@ features = ["ws2def", "winsock2"]
 
 [build-dependencies]
 pkg-config = "0.3.14"
+cc = { version = "1.0", optional = true }
+cmake = { version = "0.1", optional = true }
+
+[features]
+static-libpcap = ["cc", "cmake"]
