@@ -1,3 +1,7 @@
+# Archived
+
+This library is very minimal and is not maintained, so I have archived it. I recommend looking at alternatives like [libpnet](https://github.com/libpnet/libpnet) and [rust-pcap/pcap](https://github.com/rust-pcap/pcap).
+
 # Rustcap
 Rust wrapper for libpcap
 
